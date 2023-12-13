@@ -1,111 +1,170 @@
-import { loadGLTF, loadVideo } from "./libs/loader.js";
+import { loadGLTF, loadVideo } from './libs/loader.js';
+
+
 const THREE = window.MINDAR.IMAGE.THREE;
 
-document.addEventListener('DOMContentLoaded', () => {
+/**
+ * HTMLがロードされた時に実行される
+ */
+document.addEventListener('DOMContentLoaded', async () => {
+  let mindarThree = null;
+  
+  // let font = null;
+  // const fontLoader = new THREE.FontLoader();
+  // fontLoader.load('../assets/fonts/helvetiker_regular.typeface.json', (_font) => {
+  //   font = _font;
+  // });
 
-  let video = null;
-  const init = async () => {
-    video = await loadVideo("train.mp4");
-    texture = new THREE.VideoTexture(video);
-    video.play();
-    video.pause();
-  }
-
-
-
-  const start = async () => {
-    const mindarThree = new window.MINDAR.IMAGE.MindARThree({
-      container: document.body,
-      imageTargetSrc: './assets/targets/HungaryTrain.mind',
-    });
-    const { renderer, scene, camera } = mindarThree;
-
-    // const video = await loadVideo("./assets/videos/sintel/snow.mp4");
-    const video = await loadVideo("train.mp4");
+  const makeVideoPlane1 = async (videoPath) => {
+    const video = await loadVideo(videoPath);
     const texture = new THREE.VideoTexture(video);
-
-    const geometry = new THREE.PlaneGeometry(1, 204 / 480);
+    const geometry = new THREE.PlaneGeometry(1, 3 / 4);
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const plane = new THREE.Mesh(geometry, material);
-
-    const anchor = mindarThree.addAnchor(0);
-    anchor.group.add(plane);
-
-    anchor.onTargetFound = () => {
-      video.play();
-    }
-    anchor.onTargetLost = () => {
-      video.pause();
-    }
     video.addEventListener('play', () => {
       video.currentTime = 0;
     });
+    return {
+      plane: plane,
+      video: video,
+    };
+  }
 
+
+  const makeTextMesh = (text) => {
+    const textMesh = new THREE.Mesh(
+      new THREE.TextGeometry(text, {
+        font: font, // フォントを指定 (FontLoaderで読み込んだjson形式のフォント)
+        size: 0.1,   // 文字のサイズを指定
+        height: 0.01,  // 文字の厚さを指定
+      }),
+      new THREE.MeshBasicMaterial({
+        color: `#ccc`, // 文字の色
+      })
+    );
+    return textMesh;
+  };
+
+  const setupMoviePlane1 = async (anchorIndex, url) => {
+    const anchor = mindarThree.addAnchor(anchorIndex);
+    anchor.onTargetFound = async () => {
+      const videoSet = await makeVideoPlane1(url);
+      anchor.onTargetLost = () => {
+        videoSet.video.pause();
+      }
+      anchor.group.add(videoSet.plane);
+      videoSet.video.play();
+    }
+  };
+
+  const load0 = async () => {
+
+    const videoSet = await makeVideoPlane1('assets/videos/train.mp4');
+    const anchor = mindarThree.addAnchor(0);
+    anchor.group.add(videoSet.plane);
+    anchor.onTargetFound = () => {
+      videoSet.video.play();
+    }
+    anchor.onTargetLost = () => {
+      videoSet.video.pause();
+    }
+    // const textMesh = makeTextMesh('Disney');
+    // anchor.group.add(textMesh);S
+
+  };
+
+  const load1 = async () => {
+
+    const videoSet = await makeVideoPlane1('assets/videos/woman_hungary.mp4');
+    const anchor = mindarThree.addAnchor(1);
+    anchor.group.add(videoSet.plane);
+    anchor.onTargetFound = () => {
+      videoSet.video.play();
+    }
+    anchor.onTargetLost = () => {
+      videoSet.video.pause();
+    }
+    // const textMesh = makeTextMesh('Disney');
+    // anchor.group.add(textMesh);
+
+  };
+
+/*
+  const load2 = async () => {
+
+    const videoSet = await makeVideoPlane1('assets/videos/27-19.mp4');
+    const anchor = mindarThree.addAnchor(2);
+    anchor.group.add(videoSet.plane);
+    anchor.onTargetFound = () => {
+      videoSet.video.play();
+    }
+    anchor.onTargetLost = () => {
+      videoSet.video.pause();
+    }
+    // const textMesh = makeTextMesh('Disney');
+    // anchor.group.add(textMesh);
+
+  };
+
+  const load3 = async () => {
+
+    const videoSet = await makeVideoPlane1('assets/videos/33-2.mp4');
+    const anchor = mindarThree.addAnchor(3);
+    anchor.group.add(videoSet.plane);
+    anchor.onTargetFound = () => {
+      videoSet.video.play();
+    }
+    anchor.onTargetLost = () => {
+      videoSet.video.pause();
+    }
+    // const textMesh = makeTextMesh('Disney');
+    // anchor.group.add(textMesh);
+
+  };
+
+  const load4 = async () => {
+
+    const videoSet = await makeVideoPlane1('assets/videos/connect.mp4');
+    const anchor = mindarThree.addAnchor(4);
+    anchor.group.add(videoSet.plane);
+    anchor.onTargetFound = () => {
+      videoSet.video.play();
+    }
+    anchor.onTargetLost = () => {
+      videoSet.video.pause();
+    }
+    // const textMesh = makeTextMesh('Disney');
+    // anchor.group.add(textMesh);
+
+  };
+*/
+
+  const Start = async () => {
+
+    mindarThree = new window.MINDAR.IMAGE.MindARThree({
+      container: document.body,
+      imageTargetSrc: './assets/targets/hungary.mind',
+    });
+    const { renderer, scene, camera } = mindarThree;
     await mindarThree.start();
     renderer.setAnimationLoop(() => {
       renderer.render(scene, camera);
     });
-  }
-  //start();
-  
-  const startButton = document.createElement("button");
-  startButton.textContent = "Start";
-  startButton.addEventListener("click", start);
-  document.body.appendChild(startButton);
-  
-});
 
+    // loadtest;
 
-document.addEventListener('DOMContentLoaded', () => {
+    // setupMoviePlane1(0, 'assets/videos/test.mp4');
+    // setupMoviePlane1(1, 'assets/videos/veranda.mp4');
+    // setupMoviePlane1(2, 'assets/videos/27-19.mp4');
+    // setupMoviePlane1(3, 'assets/videos/33-2.mp4');
+    // setupMoviePlane1(4, 'assets/videos/connect.mp4');
 
-  let video = null;
-  const init = async () => {
-    video = await loadVideo("woman_hungary.mp4");
-    texture = new THREE.VideoTexture(video);
-    video.play();
-    video.pause();
   }
 
-
-
-  const start = async () => {
-    const mindarThree = new window.MINDAR.IMAGE.MindARThree({
-      container: document.body,
-      imageTargetSrc: './assets/targets/HungaryWoman.mind',
-    });
-    const { renderer, scene, camera } = mindarThree;
-
-    // const video = await loadVideo("./assets/videos/sintel/snow.mp4");
-    const video = await loadVideo("woman_hungary.mp4");
-    const texture = new THREE.VideoTexture(video);
-
-    const geometry = new THREE.PlaneGeometry(1, 204 / 480);
-    const material = new THREE.MeshBasicMaterial({ map: texture });
-    const plane = new THREE.Mesh(geometry, material);
-
-    const anchor = mindarThree.addAnchor(0);
-    anchor.group.add(plane);
-
-    anchor.onTargetFound = () => {
-      video.play();
-    }
-    anchor.onTargetLost = () => {
-      video.pause();
-    }
-    video.addEventListener('play', () => {
-      video.currentTime = 0;
-    });
-
-    await mindarThree.start();
-    renderer.setAnimationLoop(() => {
-      renderer.render(scene, camera);
-    });
-  }
-  //start();
-  
-  const startButton = document.createElement("button");
-  startButton.textContent = "Start";
-  startButton.addEventListener("click", start);
-  document.body.appendChild(startButton);
-  
+  const startButton = document.getElementById('start-button');
+  startButton.addEventListener('click', Start);
+  const start0Button = document.getElementById('start-0-button');
+  start0Button.addEventListener('click', load0, load1);
+  const start1Button = document.getElementById('start-1-button');
+  start1Button.addEventListener('click', load1);
 });
