@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const load0 = async () => {
 
-    const videoSet = await makeVideoPlane1('assets/videos/train.mp4');
+    const videoSet = await makeVideoPlane1('assets/videos/popaye.mp4');
     const anchor = mindarThree.addAnchor(0);
     anchor.group.add(videoSet.plane);
     anchor.onTargetFound = () => {
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const load1 = async () => {
 
-    const videoSet = await makeVideoPlane1('assets/videos/woman_hungary.mp4');
+    const videoSet = await makeVideoPlane1('assets/videos/Mdina.mp4');
     const anchor = mindarThree.addAnchor(1);
     anchor.group.add(videoSet.plane);
     anchor.onTargetFound = () => {
@@ -89,10 +89,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   };
 
-/*
+
   const load2 = async () => {
 
-    const videoSet = await makeVideoPlane1('assets/videos/27-19.mp4');
+    const videoSet = await makeVideoPlane1('assets/videos/Istanbul.mp4');
     const anchor = mindarThree.addAnchor(2);
     anchor.group.add(videoSet.plane);
     anchor.onTargetFound = () => {
@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   };
 
+  /*
   const load3 = async () => {
 
     const videoSet = await makeVideoPlane1('assets/videos/33-2.mp4');
@@ -143,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     mindarThree = new window.MINDAR.IMAGE.MindARThree({
       container: document.body,
-      imageTargetSrc: './assets/targets/hungary.mind',
+      imageTargetSrc: './assets/targets/Malta.mind',
     });
     const { renderer, scene, camera } = mindarThree;
     await mindarThree.start();
@@ -164,7 +165,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const startButton = document.getElementById('start-button');
   startButton.addEventListener('click', Start);
   const start0Button = document.getElementById('start-0-button');
-  start0Button.addEventListener('click', load0, load1);
+  start0Button.addEventListener('click', load0);
   const start1Button = document.getElementById('start-1-button');
   start1Button.addEventListener('click', load1);
+  const start2Button = document.getElementById('start-2-button');
+  start1Button.addEventListener('click', load2);
 });
