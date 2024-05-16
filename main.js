@@ -170,4 +170,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   start1Button.addEventListener('click', load1);
   const start2Button = document.getElementById('start-2-button');
   start1Button.addEventListener('click', load2);
+  const start3Button = document.getElementById('start-3-button');
+  start1Button.addEventListener('click', load3);
 });
