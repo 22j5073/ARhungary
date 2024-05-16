@@ -106,10 +106,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   };
 
-  /*
+  
   const load3 = async () => {
 
-    const videoSet = await makeVideoPlane1('assets/videos/33-2.mp4');
+    const videoSet = await makeVideoPlane1('assets/videos/Valletta.mp4');
     const anchor = mindarThree.addAnchor(3);
     anchor.group.add(videoSet.plane);
     anchor.onTargetFound = () => {
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // anchor.group.add(textMesh);
 
   };
-
+/*
   const load4 = async () => {
 
     const videoSet = await makeVideoPlane1('assets/videos/connect.mp4');
