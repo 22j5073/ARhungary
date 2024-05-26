@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   const load3 = async () => {
 
-    const videoSet = await makeVideoPlane1('assets/videos/Valletta.mp4');
+    const videoSet = await makeVideoPlane1('assets/videos/Valletta_cannon.mp4');
     const anchor = mindarThree.addAnchor(3);
     anchor.group.add(videoSet.plane);
     anchor.onTargetFound = () => {
