@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     mindarThree = new window.MINDAR.IMAGE.MindARThree({
       container: document.body,
-      imageTargetSrc: './assets/targets/Malta_OC.mind',
+      imageTargetSrc: './assets/targets/malta_OC.mind',
     });
     const { renderer, scene, camera } = mindarThree;
     await mindarThree.start();
