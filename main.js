@@ -7,8 +7,10 @@ const THREE = window.MINDAR.IMAGE.THREE;
  * HTMLがロードされた時に実行される
  */
 document.addEventListener('DOMContentLoaded', async () => {
-  let mindarThree = null;
-  
+  let mindarThree = new window.MINDAR.IMAGE.MindARThree({
+    container: document.body,
+    imageTargetSrc: './assets/targets/Malta_OC.mind',
+  });
   // let font = null;
   // const fontLoader = new THREE.FontLoader();
   // fontLoader.load('../assets/fonts/helvetiker_regular.typeface.json', (_font) => {
@@ -58,7 +60,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   const load0 = async () => {
-
     const videoSet = await makeVideoPlane1('assets/videos/popaye.mp4');
     const anchor = mindarThree.addAnchor(0);
     anchor.group.add(videoSet.plane);
@@ -74,7 +75,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   const load1 = async () => {
-
     const videoSet = await makeVideoPlane1('assets/videos/Mdina.mp4');
     const anchor = mindarThree.addAnchor(1);
     anchor.group.add(videoSet.plane);
@@ -91,7 +91,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
   const load2 = async () => {
-
     const videoSet = await makeVideoPlane1('assets/videos/Istanbul.mp4');
     const anchor = mindarThree.addAnchor(2);
     anchor.group.add(videoSet.plane);
@@ -108,7 +107,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   
   const load3 = async () => {
-
     const videoSet = await makeVideoPlane1('assets/videos/Valletta_cannon.mp4');
     const anchor = mindarThree.addAnchor(3);
     anchor.group.add(videoSet.plane);
@@ -141,11 +139,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 */
 
   const Start = async () => {
-
-    mindarThree = new window.MINDAR.IMAGE.MindARThree({
-      container: document.body,
-      imageTargetSrc: './assets/targets/Malta_OC.mind',
-    });
     const { renderer, scene, camera } = mindarThree;
     await mindarThree.start();
     renderer.setAnimationLoop(() => {
@@ -169,7 +162,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const start1Button = document.getElementById('start-1-button');
   start1Button.addEventListener('click', load1);
   const start2Button = document.getElementById('start-2-button');
-  start1Button.addEventListener('click', load2);
+  start2Button.addEventListener('click', load2);
   const start3Button = document.getElementById('start-3-button');
-  start1Button.addEventListener('click', load3);
+  start3Button.addEventListener('click', load3);
 });
